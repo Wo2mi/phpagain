@@ -32,7 +32,7 @@
             <form method="POST" class="m-t" role="form" action="{{route('auth.login')}}">
                 @csrf
                 <div class="form-group">
-                    <input type="email" name="email" class="form-control" placeholder="Username" >
+                    <input type="email" name="email" class="form-control" placeholder="Email" >
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="Password" >

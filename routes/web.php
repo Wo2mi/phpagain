@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AuthController;
+use App\Http\Controllers\Backend\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+/* BACKEND ROUTE */
 
+
+Route::get('dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
 Route::get('admin', [AuthController::class, 'index'])->name('auth.admin');
 Route::post('login',[AuthController::class,'login'])->name('auth.login');
