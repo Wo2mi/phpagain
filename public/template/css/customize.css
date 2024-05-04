@@ -60,26 +60,31 @@ table strong{
     display: flex;
 }
 
-.filter{
+.filter-wrapper{
     margin-bottom: 20px;
 }
 
-.filter .perpage {
+.filter-wrapper .perpage{
     display: inline-block;
 }
 
 .btn{
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
     font-size: 13px;
     border-radius: 0;
     height: 32px;
 }
 
-.filter .form-control{
+.filter-wrapper .form-control{
     height: 32px;
     max-width: 200px;
+    font-size: 13px;
 }
 
 .mr10{
     margin-right: 10px;
+}
+
+.mr5{
+    margin-right: 5px;
 }
