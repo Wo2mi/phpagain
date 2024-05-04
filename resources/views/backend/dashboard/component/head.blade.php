@@ -7,4 +7,13 @@
 <link href="/template/font-awesome/css/font-awesome.css" rel="stylesheet">
 
 <link href="/template/css/animate.css" rel="stylesheet">
+@if(isset($config['css']) && is_array($config['css']))
+    @foreach ($config['css'] as $key => $val )
+        {!! '<link rel="stylesheet" href="' .$val.'"></script>'  !!}
+        
+    @endforeach
+@endif
 <link href="/template/css/style.css" rel="stylesheet">
+<link href="/template/css/customize.css" rel="stylesheet">
+
+<script src="/template/js/jquery-3.1.1.min.js"></script>

@@ -11,5 +11,25 @@ class UserController extends Controller
     {
     }
 
+    public function index(){
+
+        $config = $this->config();
+        $template = 'backend.user.index';
+        return view('backend.dashboard.layout', compact (
+            'template',
+            'config'
+        ));
+    }
+
+    private function config(){
+        return [
+            'js' =>[
+                '/template/js/plugins/switchery/switchery.js'
+            ],
+            'css' => [
+                '/template/css/plugins/switchery/switchery.css'
+            ]
+                ];
+    }
 
 }
