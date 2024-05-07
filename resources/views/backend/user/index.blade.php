@@ -15,7 +15,7 @@
 
 
 <div class="row mt20">
-  
+
 <div class="col-lg-12">
     <div class="ibox float-e-margins">
         <div class="ibox-title">
@@ -31,9 +31,3 @@
 </div>
 
 
-<script>
-    $(document).ready(function(){
-        var elem = document.querySelector('.js-switch');
-        var switchery = new Switchery(elem, { color: '#1AB394' });
-    })
-</script>
