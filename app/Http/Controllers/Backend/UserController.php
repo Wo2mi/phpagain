@@ -18,9 +18,8 @@ class UserController extends Controller
     public function index(){
 
         $users = $this->userService->paginate();
-
-
         $config = $this->config();
+        $config['seo'] = config('apps.user');
         $template = 'backend.user.index';
         return view('backend.dashboard.layout', compact (
             'template',
@@ -40,5 +39,16 @@ class UserController extends Controller
             ]
                 ];
     }
+
+    public function create(){
+        $config['seo'] = config('apps.user');
+        $template = 'backend.user.create';
+        return view('backend.dashboard.layout', compact (
+            'template',
+            'config',
+        ));
+    }
+
+
 
 }
