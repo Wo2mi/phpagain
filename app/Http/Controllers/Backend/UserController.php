@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Services\Interfaces\UserServiceInterface as UserService;
 use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceRepository;
+use App\Http\Requests\StoreUserRequest;
+
 
 class UserController extends Controller
 {
@@ -52,7 +54,9 @@ class UserController extends Controller
             ],
             'js' => [
                 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
-                '/template/library/location.js'
+                '/template/library/location.js',
+
+
             ]
         ];
         $config['seo'] = config('apps.user');
@@ -64,6 +68,12 @@ class UserController extends Controller
         ));
     }
 
+    public function store(StoreUserRequest $request){
+        if($this->userService->create($request)){
+            return redirect()->route('user.index')->with('success','Thêm mới bản ghi thành công');
+        }
+        return redirect()->route('user.index')->with('error','Thêm mới thất bại. Hãy thử lại');
 
+    }
 
 }

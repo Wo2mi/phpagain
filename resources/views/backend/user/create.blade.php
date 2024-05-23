@@ -1,7 +1,8 @@
 @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['create']['title']])
 
-
-<form action="" method="" class="box">
+@include('backend.auth.alert')
+<form action="{{ route('user.store')}}" method="POST" class="box">
+    @csrf
     <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-5">
@@ -20,32 +21,40 @@
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Email <span class="text-danger">(*)</span></label>
-                                <input type="text" name="email" value="" class="form-control" placeholder="" autocomplete="off">
+                                <input type="text" name="email" value="{{ old('email') }}" class="form-control" placeholder="" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Họ Tên <span class="text-danger">(*)</span></label>
-                                <input type="text" name="name" value="" class="form-control" placeholder="" autocomplete="off">
+                                <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="" autocomplete="off">
                             </div>
                         </div>
                     </div>
+                    @php
+                        $userCatalogue = [
+                            '[Chọn nhóm Thành Viên]',
+                            '[Quản Trị Viên]',
+                            '[Cộng tác Thành Viên]'
+
+                            ]
+                    @endphp
                     <div class="row mb-15">
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Nhóm Thành Viên <span class="text-danger">(*)</span></label>
                                <select name="user_catalogue_id" class="form-control setupSelect2" id="">
-                                <option value="0">[Chọn nhóm thành viên]</option>
-                                <option value="1">Nhóm 1</option>
-                                <option value="2">Nhóm 2</option>
-
+                                @foreach ($userCatalogue as $key => $item )
+                                    <option @if (old('user_catalogue_id') == $key ) selected
+                                        @endif value="{{ $key}}">{{ $item }}</option>
+                                @endforeach
                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Ngày Sinh</span></label>
-                                <input type="text" name="birthday" value="" class="form-control" placeholder="" autocomplete="off">
+                                <input type="date" name="birthday" value="{{ old('birthday') }}" class="form-control" placeholder="" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -59,7 +68,7 @@
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Nhập lại mật khẩu<span class="text-danger">(*)</span></label>
-                                <input type="password" name="password" value="" class="form-control" placeholder="" autocomplete="off">
+                                <input type="password" name="re_password" value="" class="form-control" placeholder="" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -67,7 +76,7 @@
                         <div class="col-lg-12">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Avatar </label>
-                                <input type="text" name="image" value="" class="form-control" placeholder="" autocomplete="off">
+                                <input type="text" name="image" value="{{ old('image') }}" class="form-control input-image" placeholder="" autocomplete="off" data-upload="Images">
                             </div>
                         </div>
                     </div>
@@ -90,11 +99,13 @@
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Thành phố </label>
-                               <select name="province_id" class="form-control setupSelect2 province">
+                               <select name="province_id" class="form-control setupSelect2 province location" data-target="districts">
                                 <option value="0">[Chọn thành phố]</option>
                                 @if (isset($provinces))
                                     @foreach ($provinces as $province)
-                                        <option value="{{$province->code}}">{{ $province->name }}</option>
+                                        <option @if (old('province_id') == $province->code ) selected
+
+                                        @endif value="{{$province->code}}">{{ $province->name }}</option>
                                     @endforeach
                                 @endif
 
@@ -105,7 +116,7 @@
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Quận/Huyện</label>
-                                <select name="district_id" class="form-control setupSelect2 districts">
+                                <select name="district_id" class="form-control setupSelect2 districts location" data-target="wards">
                                     <option value="0">[Chọn Quận/Huyện]</option>
                                 </select>
                             </div>
@@ -115,18 +126,15 @@
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Phường/Xã</span></label>
-                               <select name="ward_id" class="form-control setupSelect2" id="">
+                               <select name="ward_id" class="form-control setupSelect2 wards" id="">
                                 <option value="0">[Chọn Phường/Xã]</option>
-                                <option value="1">Nhóm 1</option>
-                                <option value="2">Nhóm 2</option>
-
                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Địa Chỉ</span></label>
-                                <input type="text" name="address" value="" class="form-control" placeholder="" autocomplete="off">
+                                <input type="text" name="address" value="{{ old('address') }}" class="form-control" placeholder="" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -134,13 +142,13 @@
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Số điện thoại</label>
-                                <input type="text" name="phone" value="" class="form-control" placeholder="" autocomplete="off">
+                                <input type="text" name="phone" value="{{ old('phone') }}" class="form-control" placeholder="" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-row">
                                 <label for="" class="control-label text-left">Ghi chú</span></label>
-                                <input type="text" name="description" value="" class="form-control" placeholder="" autocomplete="off">
+                                <input type="text" name="description" value="{{ old('description') }}" class="form-control" placeholder="" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -153,3 +161,10 @@
     </div>
     </div>
 </form>
+
+<script>
+    var province_id = '{{ old('province_id')}}'
+    var district_id = '{{ old('district_id')}}'
+    var ward_id = '{{ old('ward_id') }}'
+
+</script>
