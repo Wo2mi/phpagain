@@ -23,7 +23,8 @@ class UserService implements UserServiceInterface
     }
 
     public function paginate(){
-        $users = $this->userRepository->getAllPaginate();
+        $users = $this->userRepository->pagination(['id', 'email', 'phone', 'address', 'name', 'publish']);
+
         return $users;
     }
 
@@ -45,5 +46,44 @@ class UserService implements UserServiceInterface
             echo $e->getMessage(); die();
             return false;
         }
+    }
+
+    public function update($id, $request){
+        DB::beginTransaction();
+        try{
+
+            $payLoad = $request->except(['_token','send' ]);
+            $payLoad['birthday'] = $this->convertBirthdayDate($payLoad['birthday']);
+            $user = $this->userRepository->update($id, $payLoad);
+            DB::commit();
+            return true;
+        }catch(\Exception $e){
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage(); die();
+            return false;
         }
+    }
+
+    public function destroy($id){
+        DB::beginTransaction();
+        try{
+            $user = $this->userRepository->delete($id);
+            DB::commit();
+            return true;
+        }catch(\Exception $e){
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage(); die();
+            return false;
+        }
+    }
+
+    private function convertBirthdayDate($birthday = ''){
+        $carbonDate = Carbon::createFromFormat('Y-m-d', $birthday);
+        $birthday = $carbonDate->format('Y-m-d H:i:s');
+        return $birthday;
+    }
+
+
 }

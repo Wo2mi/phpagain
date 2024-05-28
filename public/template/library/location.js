@@ -19,7 +19,7 @@
 
     HT.sendDataToGetLocation = (option) => {
         $.ajax({
-            url: 'ajax/location/getLocation',
+            url: '/ajax/location/getLocation',
             type: 'GET',
             data: option,
             dataType: 'json',
@@ -50,7 +50,6 @@
 
     $(document).ready(function(){
         HT.getLocation();
-        HT.sendDataToGetLocation();
         HT.loadCity();
     });
 

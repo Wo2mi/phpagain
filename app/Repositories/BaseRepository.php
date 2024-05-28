@@ -20,9 +20,34 @@ class BaseRepository implements BaseRepositoryInterface
         $this->model = $model;
     }
 
+    public function pagination(
+        array $column = ['*'],
+        array $condition = [],
+        array $join = [],
+        int $perPage = 20){
+        $query = $this->model->select($column)->where($condition);
+        if(!empty($join)){
+            $query->join(...$join);
+        }
+        return $query->paginate($perPage);
+    }
+
     public function create(array $payLoad = []){
         $model = $this->model->create($payLoad);
         return $model->fresh();
+    }
+
+    public function update(int $id = 0, array $payLoad = []){
+        $model = $this->findById($id);
+        return $model->update($payLoad);
+    }
+
+    public function delete(int $id = 0){
+        return $this->findById($id)->delete();
+    }
+
+    public function forceDelete(int $id = 0){
+        return $this->findById($id)->forceDelete();
     }
 
     public function all(){
@@ -30,11 +55,11 @@ class BaseRepository implements BaseRepositoryInterface
      }
 
      public function findById(
-        int $modelId,
+        int $id,
         array $column = ['*'],
         array $relation = []
         )
      {
-        return $this->model->select($column)->with($relation)->findOrFail($modelId);
+        return $this->model->select($column)->with($relation)->findOrFail($id);
      }
 }
